@@ -1,3 +1,4 @@
+import { RadioBrowserApiProvider } from "@/src/context/RadioBrowserApiContext";
 import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
@@ -32,21 +33,23 @@ export default function RootLayout() {
     colorScheme === "dark" ? CombinedDarkTheme : CombinedLightTheme;
 
   return (
-    <ThemeProvider value={theme}>
-      <PaperProvider theme={paperTheme}>
-        <StatusBar
-          barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
-          backgroundColor={paperTheme.colors.background}
-        />
-        <Stack>
-          <Stack.Screen
-            name="(tabs)"
-            options={{
-              headerShown: false,
-            }}
+    <RadioBrowserApiProvider>
+      <ThemeProvider value={theme}>
+        <PaperProvider theme={paperTheme}>
+          <StatusBar
+            barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+            backgroundColor={paperTheme.colors.background}
           />
-        </Stack>
-      </PaperProvider>
-    </ThemeProvider>
+          <Stack>
+            <Stack.Screen
+              name="(tabs)"
+              options={{
+                headerShown: false,
+              }}
+            />
+          </Stack>
+        </PaperProvider>
+      </ThemeProvider>
+    </RadioBrowserApiProvider>
   );
 }
