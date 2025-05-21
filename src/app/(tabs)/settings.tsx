@@ -1,7 +1,10 @@
+import { useSession } from "@/src/context";
 import { StyleSheet, View } from "react-native";
-import { List } from "react-native-paper";
+import { Button, List } from "react-native-paper";
 
 const Settings = () => {
+  const { signIn, signOut } = useSession();
+
   return (
     <View>
       <List.Section>
@@ -21,6 +24,12 @@ const Settings = () => {
           left={(props) => <List.Icon {...props} icon="folder" />}
         />
       </List.Section>
+      <Button icon="location-enter" onPress={signIn}>
+        Sign in
+      </Button>
+      <Button icon="exit-to-app" onPress={signOut}>
+        Sign out
+      </Button>
     </View>
   );
 };

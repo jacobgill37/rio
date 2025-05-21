@@ -27,6 +27,8 @@
       "expo-router",
       "expo-audio",
       "expo-font",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
       [
         "expo-splash-screen",
         {

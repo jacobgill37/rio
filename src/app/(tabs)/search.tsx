@@ -1,4 +1,4 @@
-import { useRadioBrowserApi } from "@/src/context/RadioBrowserApiContext";
+import { useRadioBrowserApi } from "@/src/context";
 import { getStationIds } from "@/src/hooks/getStationIds";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { type Station } from "radio-browser-api";
@@ -13,12 +13,6 @@ import {
   Searchbar,
   Text,
 } from "react-native-paper";
-
-// This page should:
-// - Take the user input from the search bar
-// - Call the radio-browser API to get the station data
-// - Allow the users to select a station(s) from the list
-// - Save that station id to AsyncStorage
 
 type SearchResultProps = {
   station: Station;
