@@ -1,4 +1,7 @@
-import { firebaseAppName, firebaseConfig } from "@/src/constants/firebaseConstants";
+import {
+  firebaseAppName,
+  firebaseConfig,
+} from "@/src/constants/firebaseConstants";
 import firebase from "firebase/compat/app";
 import { createContext, useContext, type FC, type ReactNode } from "react";
 

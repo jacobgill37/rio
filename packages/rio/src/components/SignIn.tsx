@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import "firebase/compat/auth";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { passwordValidationMessages } from "../constants/signInValidation";
 
@@ -79,7 +79,7 @@ const SignIn = () => {
   }, [password]);
 
   return (
-    <View style={{ paddingHorizontal: 16, marginTop: "50%" }}>
+    <ScrollView style={{ paddingHorizontal: 16, marginTop: "50%" }}>
       <Text variant="headlineMedium" style={{ marginBottom: 16 }}>
         Sign In
       </Text>
@@ -144,7 +144,7 @@ const SignIn = () => {
       >
         Sign up
       </Button>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -10,6 +10,8 @@ web-build/
 expo-env.d.ts
 app-example/
 android/
+*.apk
+*.aab
 
 # Native
 *.orig.*
@@ -47,3 +49,6 @@ packages/rio-api/data/
 
 # local models
 packages/rio-api/models/
+
+# gcloud service account keys
+service_account_key.json

@@ -8,20 +8,27 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jacobgill37.rio"
+      "package": "com.jacobgill37.rio",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "config": {
+        "apiKey": "AIzaSyBA0JE4SHMhSFqUKgSgKi4eDXakUWLEJBc",
+        "authDomain": "rio-firebase.firebaseapp.com",
+        "projectId": "rio-firebase",
+        "storageBucket": "rio-firebase.firebasestorage.app",
+        "messagingSenderId": "496442185619",
+        "appId": "1:496442185619:web:af133c6f0706cf815e3a66",
+        "measurementId": "G-M9JF2KRB5K"
+      }
     },
     "plugins": [
       "expo-router",
