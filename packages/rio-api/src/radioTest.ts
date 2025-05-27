@@ -5,17 +5,22 @@ import { PassThrough } from "stream";
 import { WebSocket } from "ws";
 
 const SAMPLE_RATE = 16000;
-const CHUNK_SECONDS = 10;
+const CHUNK_SECONDS = 5;
 const CHUNK_SIZE = SAMPLE_RATE * CHUNK_SECONDS;
+const bytesPer32BitSample = 4;
+if (!process.env.MODEL) {
+  throw new Error("MODEL environment variable is not set");
+}
+
+// Shared buffer
+export const floatBuffer: Float32Array[] = [];
 
 export const initialiseClassifier = async () => {
-  const model = "/home/jacob/repos/rio/packages/rio-api/models/rio-model-onnx";
-  const classifier = await pipeline("audio-classification", model);
+  const classifier = await pipeline("audio-classification", process.env.MODEL);
   return classifier;
 };
 
-export const analyseStream = async (url: string, socket: WebSocket) => {
-  const classifier = await initialiseClassifier();
+export const startStreamProducer = (url: string) => {
   const radioStream = got.stream(url);
   const ffmpegStream = new PassThrough();
 
@@ -26,51 +31,36 @@ export const analyseStream = async (url: string, socket: WebSocket) => {
     .on("error", (err) => console.error("ffmpeg error:", err))
     .pipe(ffmpegStream);
 
-  let floatBuffer: Float32Array[] = [];
-  let processing = false;
-
-  ffmpegStream.on("data", async (chunk) => {
+  ffmpegStream.on("data", (chunk) => {
+    const numOf32BitSamples = chunk.length / bytesPer32BitSample;
     floatBuffer.push(
-      new Float32Array(chunk.buffer, chunk.byteOffset, chunk.length / 4)
+      new Float32Array(chunk.buffer, chunk.byteOffset, numOf32BitSamples)
     );
-
-    if (processing) return;
-
-    processing = true;
-    try {
-      while (true) {
-        const totalLength = floatBuffer.reduce(
-          (sum, arr) => sum + arr.length,
-          0
-        );
-
-        if (totalLength < CHUNK_SIZE) break;
-
-        const chunkToProcess = processChunks(totalLength, floatBuffer);
-
-        const output = await classifier(chunkToProcess);
-
-        socket.send(JSON.stringify({ output }));
-      }
-    } finally {
-      processing = false;
-    }
   });
 };
 
-const processChunks = (totalLength: number, floatBuffer: Float32Array[]) => {
-  let allChunks = new Float32Array(totalLength);
-  let offset = 0;
+export const startStreamConsumer = async (socket: WebSocket) => {
+  const classifier = await initialiseClassifier();
 
-  for (const arr of floatBuffer) {
-    allChunks.set(arr, offset);
-    offset += arr.length;
-  }
+  setInterval(async () => {
+    const bufferLength = floatBuffer.reduce((sum, arr) => sum + arr.length, 0);
 
-  const chunkToProcess = allChunks.slice(0, CHUNK_SIZE);
+    if (bufferLength < CHUNK_SIZE) return;
 
-  const leftovers = allChunks.slice(CHUNK_SIZE);
-  floatBuffer = leftovers.length ? [leftovers] : [];
+    const allSamples = new Float32Array(bufferLength);
 
-  return chunkToProcess;
+    let offset = 0;
+    for (const arr of floatBuffer) {
+      allSamples.set(arr, offset);
+      offset += arr.length;
+    }
+
+    const mostRecentChunk = allSamples.slice(allSamples.length - CHUNK_SIZE);
+
+    // Clear the buffer
+    floatBuffer.length = 0;
+
+    const output = await classifier(mostRecentChunk);
+    socket.send(JSON.stringify({ output }));
+  }, CHUNK_SECONDS * 1000);
 };

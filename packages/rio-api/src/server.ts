@@ -1,8 +1,8 @@
 import { WebSocketServer } from "ws";
-import { analyseStream } from "./radioTest";
+import { startStreamConsumer, startStreamProducer } from "./radioTest";
 
 const server = new WebSocketServer({
-  port: 8081,
+  port: 8080,
 });
 
 server.on("connection", (socket) => {
@@ -13,13 +13,14 @@ server.on("connection", (socket) => {
   // Start feeding radio urls to AI
   // pass the AI's response to the client
 
-  socket.on("message", (message) => {
+  socket.on("message", async (message) => {
     console.log(`Received: ${message}`);
     const parsedMessage = JSON.parse(message.toString());
 
     if (parsedMessage.url) {
       console.log("Received URL:", parsedMessage.url);
-      analyseStream(parsedMessage.url, socket);
+      startStreamProducer(parsedMessage.url);
+      await startStreamConsumer(socket);
     }
   });
 
@@ -28,4 +29,4 @@ server.on("connection", (socket) => {
   });
 });
 
-console.log("WebSocket server is running on ws://localhost:8081");
+console.log(`WebSocket server is running on ${server.options.port}`);
