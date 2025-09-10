@@ -1,0 +1,61 @@
+{
+  "expo": {
+    "name": "rio",
+    "slug": "rio",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.jacobgill37.rio",
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png",
+      "config": {
+        "apiKey": "AIzaSyBA0JE4SHMhSFqUKgSgKi4eDXakUWLEJBc",
+        "authDomain": "rio-firebase.firebaseapp.com",
+        "projectId": "rio-firebase",
+        "storageBucket": "rio-firebase.firebasestorage.app",
+        "messagingSenderId": "496442185619",
+        "appId": "1:496442185619:web:af133c6f0706cf815e3a66",
+        "measurementId": "G-M9JF2KRB5K"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-audio",
+      "expo-font",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3e674e26-dec4-4bea-9e4c-060a02c8dc1a"
+      }
+    }
+  }
+}

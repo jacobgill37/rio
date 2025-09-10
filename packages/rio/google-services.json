@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "496442185619",
+    "project_id": "rio-firebase",
+    "storage_bucket": "rio-firebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496442185619:android:7af3a8d2e2ccd7a05e3a66",
+        "android_client_info": {
+          "package_name": "com.jacobgill37.rio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvQ4mCIy4GeOSEADdlU6DVIwTWU7c8Tmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
